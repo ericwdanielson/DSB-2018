@@ -259,8 +259,8 @@ def train(model):
     print("Training network heads")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=20,
-                layers='heads')
+                epochs=5,
+                layers='all')
 
 def train_and_classify(model):
     keep_training = True
