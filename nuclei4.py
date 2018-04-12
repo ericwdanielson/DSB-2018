@@ -221,7 +221,7 @@ class NucleiDataset(utils.Dataset):
             super(self.__class__, self).image_reference(image_id)
    
     def record_class(self,class_id, image_index):
-        print(class_id)
+        #print(class_id)
         self.class_balancer[class_id].append(image_index)
     
     def get_next_index(self):
