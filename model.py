@@ -2314,7 +2314,7 @@ class MaskRCNN():
         if os.name is 'nt':
             workers = 0
         else:
-            workers = multiprocessing.cpu_count() #max(self.config.BATCH_SIZE // 2, 2)
+            workers = max(self.config.BATCH_SIZE // 2, 2)
         #min_steps = 50
         #image_number = int(train_dataset.image_number / 10)
         #self.config.STEPS_PER_EPOCH = max([min_steps,image_number])
@@ -2331,7 +2331,7 @@ class MaskRCNN():
             #validation_steps = val_dataset.image_number*5,
             max_queue_size=100,
             workers=workers,
-            use_multiprocessing=True,
+            use_multiprocessing=False,
         )
         #self.epoch = max(self.epoch, epochs)
 
