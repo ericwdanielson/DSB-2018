@@ -75,7 +75,7 @@ class NucleiConfig(Config):
     NUM_CLASSES = 1 + 5# Background + Stain_types
 
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = 700
+    STEPS_PER_EPOCH = 100
     VALIDATION_STEPS = 10
 
     # Skip detections with < 90% confidence
@@ -123,6 +123,8 @@ class NucleiConfig(Config):
 
     # Max number of final detections per image
     DETECTION_MAX_INSTANCES = 400
+    
+    EPOCHS = 5
 
 
 
@@ -259,7 +261,7 @@ def train(model):
     print("Training network heads")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
-                epochs=5,
+                epochs= config.EPOCHS,
                 layers='all')
 
 def train_and_classify(model):
@@ -470,6 +472,15 @@ if __name__ == '__main__':
     parser.add_argument('--video', required=False,
                         metavar="path or URL to video",
                         help='Video to apply the color splash effect on')
+    parser.add_argument('--lr', required=False,
+                        metavar="put in desired learning rate",
+                        help='if you want to ovverride the lr')
+    parser.add_argument('--steps', required=False,
+                        metavar="put in desired steps",
+                        help='if you want to ovverride the lr')
+    parser.add_argument('--epochs', required=False,
+                        metavar="put in desired steps",
+                        help='if you want to ovverride the lr')
     args = parser.parse_args()
 
     # Validate arguments
@@ -535,6 +546,14 @@ if __name__ == '__main__':
             "mrcnn_bbox", "mrcnn_mask"])
     else:
         model.load_weights(weights_path, by_name=True)
+        
+    if args.lr != 'None':
+        config.LEARNING_RATE = float(args.lr)
+    if args.steps != 'None':    
+        config.STEPS_PER_EPOCH = int(args.steps)
+    if args.epochs != 'None':    
+        config.EPOCHS = int(args.epochs)
+    
 
     # Train or evaluate
     if args.command == "train":
